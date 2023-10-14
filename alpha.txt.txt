@@ -1,0 +1,75 @@
+def display_board(array):
+    res = ""
+    for i in range(len(array)):
+        for j in range(len(array)):
+            if array[i][j] == 1:
+                res += " Q "
+            else:
+                res += " ░ "
+        print(res)
+        res = ""
+
+def display_boards(array):
+    for b in range(len(array)):
+        display_board(array[b])
+        print()
+
+def solve_n_queens(board, col):
+    if col == N:
+        return True
+    for row in range(N):
+        if is_safe(board, row, col):
+            board[row][col] = 1
+            if solve_n_queens(board, col + 1):
+                if is_same(boards, board):
+                    board[row][col] = 0
+                    return False
+                return True
+            board[row][col] = 0
+    return False
+
+def is_same(array_of_boards, board):
+    if len(array_of_boards) == 0:
+        return False
+    count = 0
+    for b in range(len(array_of_boards)):
+
+        for x in range(len(board)):
+            for y in range(len(board)):
+                if array_of_boards[b][x][y] == 1 and board[x][y] == 1:
+                    count += 1
+        if count == 8:
+            return True
+        count = 0
+    return False
+
+
+
+
+def is_safe(board, row, col):
+    for x in range(col):
+        if board[row][x] == 1:
+            return False
+    for x, y in zip(range(row, -1, -1), range(col, -1, -1)):
+        if board[x][y] == 1:
+            return False
+    for x, y in zip(range(row, N, 1), range(col, -1, -1)):
+        if board[x][y] == 1:
+            return False
+    return True
+
+boards = []
+N = 8
+board = [[0 for x in range(N)] for y in range(N)]
+n = 0
+while True:
+    input("Press any button to generate a board")
+    solve_n_queens(board, 0)
+    boards.append(board)
+    print(str(n + 1) + ". Generated board")
+    display_board(board)
+    print()
+    board = [[0 for x in range(N)] for y in range(N)]
+    n += 1
+    if n == 92:
+        break
