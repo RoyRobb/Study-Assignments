@@ -1,0 +1,23 @@
+from cryptography.fernet import Fernet
+
+key = Fernet.generate_key()
+    #add a path to the folder where you will have your 
+path = "C:\\Users\\"
+    
+with open(path + '\\Filekey.key', 'wb') as filekey:
+    filekey.write(key)
+
+with open(path + '\\filekey.key', 'rb') as filekey:
+    fernet = Fernet(key)
+    #add the name of your csv file that you want encrypted
+with open(path + '\\name.csv', 'rb') as file:
+    original = file.read()
+encrypted = fernet.encrypt(original)
+with open(path + '\\name_enc.csv', 'wb') as encrypted_file:
+    encrypted_file.write(encrypted)
+fernet = Fernet(key)
+with open(path + '\\name_enc.csv', 'rb') as enc_file:
+    encrypted = enc_file.read()
+decrypted = fernet.decrypt(encrypted)
+with open(path + '\\name_dec.csv', 'wb') as dec_file:
+    dec_file.write(decrypted)
